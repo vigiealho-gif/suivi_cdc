@@ -273,9 +273,9 @@ tbody tr:hover td{background:var(--surface2)}
       <div class="file-pill" id="filepill">✓ <span id="fname"></span></div>
       <button class="upload-btn" onclick="document.getElementById('fi').click()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        Nouveau fichier (.xlsx)
+        Nouveau fichier
       </button>
-      <input type="file" id="fi" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFile(event)">
+      <input type="file" id="fi" accept=".xlsx,.xls,.csv,.xlsb,*" style="display:none" onchange="handleFile(event)">
     </div>
   </div>
 
@@ -361,16 +361,13 @@ tbody tr:hover td{background:var(--surface2)}
 </div>
 
 <script>
-// ── CONFIG ─────────────────────────────────────────────────
 const OBJ_APH=8.5, OBJ_DMT=420, OBJ_ACW=45, OBJ_OCC=82;
 
-// ── DONNÉES PRÉ-CHARGÉES (20 avril 2026) ──────────────────
-let agents = [{"site":"HO","eq":"AYOUB","name":"Afaf FRAIHA","appels":57,"aph":9.38,"dmt":366,"acw_s":6.9,"occ":80.2},{"site":"HO","eq":"AYOUB","name":"Biguiouar Chaimae","appels":47,"aph":6.83,"dmt":481,"acw_s":31.9,"occ":85.7},{"site":"HO","eq":"AYOUB","name":"Jarbi Oumnia","appels":45,"aph":6.86,"dmt":485,"acw_s":22.2,"occ":84.5},{"site":"HO","eq":"AYOUB","name":"El Ghaddioui Ghizlane","appels":58,"aph":9.69,"dmt":358,"acw_s":33.6,"occ":81.1},{"site":"HO","eq":"AYOUB","name":"El Ouazani Ouiam","appels":43,"aph":6.65,"dmt":538,"acw_s":24.7,"occ":86.7},{"site":"HO","eq":"AYOUB","name":"Achnak Yousra","appels":50,"aph":7.58,"dmt":472,"acw_s":12.7,"occ":84.4},{"site":"HO","eq":"AYOUB","name":"El Idrissi Hiba","appels":42,"aph":6.52,"dmt":546,"acw_s":10.6,"occ":87.2},{"site":"HO","eq":"CHAIMAE","name":"DAHMAN MOURAD","appels":48,"aph":7.95,"dmt":431,"acw_s":42.0,"occ":83.8},{"site":"HO","eq":"CHAIMAE","name":"Omayma EL BADMOUSSI","appels":52,"aph":8.23,"dmt":426,"acw_s":14.3,"occ":84.3},{"site":"HO","eq":"CHAIMAE","name":"Noussair KHARBOUCH","appels":60,"aph":9.6,"dmt":367,"acw_s":26.7,"occ":83.1},{"site":"HO","eq":"CHAIMAE","name":"Khalil Bouzid","appels":49,"aph":7.86,"dmt":439,"acw_s":19.7,"occ":86.0},{"site":"HO","eq":"CHAIMAE","name":"Anouar El badmoussi","appels":57,"aph":9.33,"dmt":373,"acw_s":20.3,"occ":82.7},{"site":"HO","eq":"CHAIMAE","name":"Aladin ELHANNOUDI","appels":59,"aph":9.88,"dmt":359,"acw_s":18.9,"occ":81.5},{"site":"HO","eq":"CHAIMAE","name":"Yasmine AKANDOUCH","appels":61,"aph":10.26,"dmt":339,"acw_s":23.0,"occ":81.7},{"site":"HO","eq":"FATIMA","name":"Anissa EL EDRISSI","appels":50,"aph":7.27,"dmt":479,"acw_s":18.8,"occ":86.5},{"site":"HO","eq":"FATIMA","name":"Ilham BALHAJ","appels":58,"aph":9.48,"dmt":369,"acw_s":17.4,"occ":82.8},{"site":"HO","eq":"FATIMA","name":"LATIFA LAKBIR","appels":47,"aph":7.72,"dmt":462,"acw_s":7.6,"occ":84.9},{"site":"HO","eq":"FATIMA","name":"Hafid ZAANOUN","appels":62,"aph":11.21,"dmt":310,"acw_s":17.6,"occ":78.9},{"site":"HO","eq":"FATIMA","name":"Fatima Zahra SOUITA","appels":49,"aph":7.79,"dmt":450,"acw_s":22.8,"occ":84.4},{"site":"HO","eq":"FATIMA","name":"Hanae NASRI","appels":47,"aph":7.8,"dmt":459,"acw_s":14.3,"occ":84.9},{"site":"HO","eq":"FATIMA","name":"Redwan AZDAD","appels":67,"aph":10.76,"dmt":330,"acw_s":13.2,"occ":81.3},{"site":"HO","eq":"Ikram","name":"El Morabet Safae","appels":44,"aph":8.2,"dmt":418,"acw_s":24.5,"occ":84.5},{"site":"HO","eq":"Ikram","name":"Fatima Zohra MASSAKI","appels":52,"aph":9.42,"dmt":373,"acw_s":20.1,"occ":81.6},{"site":"HO","eq":"Ikram","name":"Noura LAASSALLE","appels":60,"aph":9.82,"dmt":362,"acw_s":9.5,"occ":79.9},{"site":"HO","eq":"Ikram","name":"Chaymae AMZIAN","appels":61,"aph":10.07,"dmt":353,"acw_s":16.0,"occ":83.0},{"site":"HO","eq":"Ikram","name":"Salma Yakiry","appels":50,"aph":8.46,"dmt":400,"acw_s":19.2,"occ":82.3},{"site":"HO","eq":"Ikram","name":"Youssef EL MOUSSAOUI","appels":50,"aph":7.65,"dmt":437,"acw_s":13.3,"occ":86.0},{"site":"HO","eq":"Ikram","name":"Oumaima LAMIRI","appels":34,"aph":5.25,"dmt":637,"acw_s":25.5,"occ":88.1},{"site":"HO","eq":"Ikram","name":"Mourad Rafik Olkhir","appels":60,"aph":9.74,"dmt":366,"acw_s":10.9,"occ":82.3},{"site":"HO","eq":"Ikram","name":"Fatima AHALLOUCH","appels":53,"aph":8.3,"dmt":429,"acw_s":33.3,"occ":87.5},{"site":"HO","eq":"SAFAE","name":"Khalid KARROUCH","appels":41,"aph":8.32,"dmt":408,"acw_s":28.7,"occ":83.6},{"site":"HO","eq":"SAFAE","name":"Selma EL BAZE","appels":59,"aph":9.94,"dmt":347,"acw_s":35.5,"occ":79.9},{"site":"HO","eq":"SAFAE","name":"abdelhalim benzydan","appels":53,"aph":8.69,"dmt":405,"acw_s":17.9,"occ":82.4},{"site":"HO","eq":"SAFAE","name":"Kaoutar CHEYKH","appels":56,"aph":9.28,"dmt":372,"acw_s":34.8,"occ":83.8},{"site":"HO","eq":"SAFAE","name":"Chaymae NFIHA","appels":46,"aph":8.21,"dmt":432,"acw_s":18.2,"occ":85.0},{"site":"HO","eq":"SAFAE","name":"Salma KARMAN","appels":54,"aph":9.09,"dmt":387,"acw_s":16.3,"occ":83.4},{"site":"HO","eq":"SAFAE","name":"Soukaina Ouakkar","appels":45,"aph":7.29,"dmt":451,"acw_s":13.4,"occ":83.7},{"site":"HO","eq":"SAFAE","name":"Soukaina ALILOUI","appels":55,"aph":9.03,"dmt":392,"acw_s":13.5,"occ":83.2},{"site":"HO","eq":"SAFAE","name":"Ayoub Khouna","appels":40,"aph":7.38,"dmt":440,"acw_s":31.4,"occ":84.3},{"site":"HO","eq":"SAFAE","name":"Aya ERRONI","appels":66,"aph":10.81,"dmt":327,"acw_s":27.8,"occ":81.4},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Soraya MUHEYA","appels":55,"aph":9.76,"dmt":345,"acw_s":31.7,"occ":83.6},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"HICHAM HAYSSOUS","appels":64,"aph":10.45,"dmt":326,"acw_s":4.9,"occ":82.1},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Rabie EL BAKKOURI","appels":44,"aph":8.71,"dmt":384,"acw_s":13.3,"occ":79.9},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Hakim EL HADRATI","appels":67,"aph":11.25,"dmt":307,"acw_s":8.3,"occ":79.1},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"ezzahra AARAB Fatma","appels":58,"aph":9.35,"dmt":373,"acw_s":11.5,"occ":81.3},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Fatima Zahrae TORRES","appels":74,"aph":12.11,"dmt":282,"acw_s":8.6,"occ":80.7},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Driss LAATIRIS","appels":61,"aph":10.29,"dmt":332,"acw_s":43.4,"occ":79.2},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Kaoutar KASSAS","appels":58,"aph":9.16,"dmt":366,"acw_s":27.9,"occ":80.3},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Omar EL MESSAOUDI","appels":67,"aph":10.82,"dmt":303,"acw_s":45.3,"occ":81.0},{"site":"TE","eq":"Mutualisés","name":"Nada OAOUDA","appels":60,"aph":9.9,"dmt":353,"acw_s":17.8,"occ":80.4},{"site":"TE","eq":"Siham FAIDOULLE","name":"HAMRI Najlae","appels":57,"aph":8.98,"dmt":389,"acw_s":35.7,"occ":87.0},{"site":"TE","eq":"Siham FAIDOULLE","name":"IMANE ATTAOUI","appels":57,"aph":9.17,"dmt":367,"acw_s":26.2,"occ":82.4},{"site":"TE","eq":"Siham FAIDOULLE","name":"Afaf AL ABDELLAOUI","appels":41,"aph":6.85,"dmt":510,"acw_s":61.3,"occ":82.8},{"site":"TE","eq":"Siham FAIDOULLE","name":"Mohamed EL BAKKALI","appels":45,"aph":7.11,"dmt":482,"acw_s":29.5,"occ":82.7},{"site":"TE","eq":"Siham FAIDOULLE","name":"DJIHAD RABOULI","appels":52,"aph":8.87,"dmt":372,"acw_s":59.9,"occ":78.2},{"site":"TE","eq":"Siham FAIDOULLE","name":"Hajar HADJ AMANSOR","appels":56,"aph":9.04,"dmt":390,"acw_s":28.6,"occ":82.2},{"site":"TE","eq":"Taoufik ARHMANE","name":"Hind BASSIME","appels":54,"aph":8.42,"dmt":417,"acw_s":14.8,"occ":82.5},{"site":"TE","eq":"Taoufik ARHMANE","name":"Mohamed El Mehdi BENLEHMAR","appels":47,"aph":7.49,"dmt":455,"acw_s":17.0,"occ":80.4},{"site":"TE","eq":"Taoufik ARHMANE","name":"Smahane BOUCHOUKA","appels":71,"aph":11.86,"dmt":298,"acw_s":34.2,"occ":80.5},{"site":"TE","eq":"Taoufik ARHMANE","name":"Hamza NAHAL AZOUZI","appels":53,"aph":9.11,"dmt":386,"acw_s":39.4,"occ":80.8},{"site":"TE","eq":"Taoufik ARHMANE","name":"Mohamed EL ISSAOUI","appels":48,"aph":7.75,"dmt":460,"acw_s":8.7,"occ":84.6},{"site":"TE","eq":"Taoufik ARHMANE","name":"Hasnaa BAHADDOU","appels":62,"aph":9.63,"dmt":360,"acw_s":6.5,"occ":82.4},{"site":"TE","eq":"Taoufik ARHMANE","name":"Mohammed Yassir BELEFDIL","appels":50,"aph":8.82,"dmt":405,"acw_s":30.2,"occ":82.8},{"site":"TE","eq":"Taoufik ARHMANE","name":"Laila BARHOUN","appels":57,"aph":9.07,"dmt":361,"acw_s":15.5,"occ":83.8},{"site":"TE","eq":"Taoufik ARHMANE","name":"Lina LAAZIBI","appels":53,"aph":8.67,"dmt":406,"acw_s":30.6,"occ":81.6},{"site":"TE","eq":"Taoufik ARHMANE","name":"Khawla Akharaz","appels":51,"aph":8.45,"dmt":403,"acw_s":9.4,"occ":82.2}];
+let agents = [{"site":"HO","eq":"AYOUB","name":"Afaf FRAIHA","appels":57,"aph":9.38,"dmt":366,"acw_s":7,"occ":80.2},{"site":"HO","eq":"AYOUB","name":"Biguiouar Chaimae","appels":47,"aph":6.83,"dmt":481,"acw_s":32,"occ":85.7},{"site":"HO","eq":"AYOUB","name":"Jarbi Oumnia","appels":45,"aph":6.86,"dmt":485,"acw_s":22,"occ":84.5},{"site":"HO","eq":"AYOUB","name":"El Ghaddioui Ghizlane","appels":58,"aph":9.69,"dmt":358,"acw_s":34,"occ":81.1},{"site":"HO","eq":"AYOUB","name":"El Ouazani Ouiam","appels":43,"aph":6.65,"dmt":538,"acw_s":25,"occ":86.7},{"site":"HO","eq":"AYOUB","name":"Achnak Yousra","appels":50,"aph":7.58,"dmt":472,"acw_s":13,"occ":84.4},{"site":"HO","eq":"AYOUB","name":"El Idrissi Hiba","appels":42,"aph":6.52,"dmt":546,"acw_s":11,"occ":87.2},{"site":"HO","eq":"CHAIMAE","name":"DAHMAN MOURAD","appels":48,"aph":7.95,"dmt":431,"acw_s":42,"occ":83.8},{"site":"HO","eq":"CHAIMAE","name":"Omayma EL BADMOUSSI","appels":52,"aph":8.23,"dmt":426,"acw_s":14,"occ":84.3},{"site":"HO","eq":"CHAIMAE","name":"Noussair KHARBOUCH","appels":60,"aph":9.6,"dmt":367,"acw_s":27,"occ":83.1},{"site":"HO","eq":"CHAIMAE","name":"Khalil Bouzid","appels":49,"aph":7.86,"dmt":439,"acw_s":20,"occ":86.0},{"site":"HO","eq":"CHAIMAE","name":"Anouar El badmoussi","appels":57,"aph":9.33,"dmt":373,"acw_s":20,"occ":82.7},{"site":"HO","eq":"CHAIMAE","name":"Aladin ELHANNOUDI","appels":59,"aph":9.88,"dmt":359,"acw_s":19,"occ":81.5},{"site":"HO","eq":"CHAIMAE","name":"Yasmine AKANDOUCH","appels":61,"aph":10.26,"dmt":339,"acw_s":23,"occ":81.7},{"site":"HO","eq":"FATIMA","name":"Anissa EL EDRISSI","appels":50,"aph":7.27,"dmt":479,"acw_s":19,"occ":86.5},{"site":"HO","eq":"FATIMA","name":"Ilham BALHAJ","appels":58,"aph":9.48,"dmt":369,"acw_s":17,"occ":82.8},{"site":"HO","eq":"FATIMA","name":"LATIFA LAKBIR","appels":47,"aph":7.72,"dmt":462,"acw_s":8,"occ":84.9},{"site":"HO","eq":"FATIMA","name":"Hafid ZAANOUN","appels":62,"aph":11.21,"dmt":310,"acw_s":18,"occ":78.9},{"site":"HO","eq":"FATIMA","name":"Fatima Zahra SOUITA","appels":49,"aph":7.79,"dmt":450,"acw_s":23,"occ":84.4},{"site":"HO","eq":"FATIMA","name":"Hanae NASRI","appels":47,"aph":7.8,"dmt":459,"acw_s":14,"occ":84.9},{"site":"HO","eq":"FATIMA","name":"Redwan AZDAD","appels":67,"aph":10.76,"dmt":330,"acw_s":13,"occ":81.3},{"site":"HO","eq":"Ikram","name":"El Morabet Safae","appels":44,"aph":8.2,"dmt":418,"acw_s":25,"occ":84.5},{"site":"HO","eq":"Ikram","name":"Fatima Zohra MASSAKI","appels":52,"aph":9.42,"dmt":373,"acw_s":20,"occ":81.6},{"site":"HO","eq":"Ikram","name":"Noura LAASSALLE","appels":60,"aph":9.82,"dmt":362,"acw_s":10,"occ":79.9},{"site":"HO","eq":"Ikram","name":"Chaymae AMZIAN","appels":61,"aph":10.07,"dmt":353,"acw_s":16,"occ":83.0},{"site":"HO","eq":"Ikram","name":"Salma Yakiry","appels":50,"aph":8.46,"dmt":400,"acw_s":19,"occ":82.3},{"site":"HO","eq":"Ikram","name":"Youssef EL MOUSSAOUI","appels":50,"aph":7.65,"dmt":437,"acw_s":13,"occ":86.0},{"site":"HO","eq":"Ikram","name":"Oumaima LAMIRI","appels":34,"aph":5.25,"dmt":637,"acw_s":26,"occ":88.1},{"site":"HO","eq":"Ikram","name":"Mourad Rafik Olkhir","appels":60,"aph":9.74,"dmt":366,"acw_s":11,"occ":82.3},{"site":"HO","eq":"Ikram","name":"Fatima AHALLOUCH","appels":53,"aph":8.3,"dmt":429,"acw_s":33,"occ":87.5},{"site":"HO","eq":"SAFAE","name":"Khalid KARROUCH","appels":41,"aph":8.32,"dmt":408,"acw_s":29,"occ":83.6},{"site":"HO","eq":"SAFAE","name":"Selma EL BAZE","appels":59,"aph":9.94,"dmt":347,"acw_s":36,"occ":79.9},{"site":"HO","eq":"SAFAE","name":"abdelhalim benzydan","appels":53,"aph":8.69,"dmt":405,"acw_s":18,"occ":82.4},{"site":"HO","eq":"SAFAE","name":"Kaoutar CHEYKH","appels":56,"aph":9.28,"dmt":372,"acw_s":35,"occ":83.8},{"site":"HO","eq":"SAFAE","name":"Chaymae NFIHA","appels":46,"aph":8.21,"dmt":432,"acw_s":18,"occ":85.0},{"site":"HO","eq":"SAFAE","name":"Salma KARMAN","appels":54,"aph":9.09,"dmt":387,"acw_s":16,"occ":83.4},{"site":"HO","eq":"SAFAE","name":"Soukaina Ouakkar","appels":45,"aph":7.29,"dmt":451,"acw_s":13,"occ":83.7},{"site":"HO","eq":"SAFAE","name":"Soukaina ALILOUI","appels":55,"aph":9.03,"dmt":392,"acw_s":14,"occ":83.2},{"site":"HO","eq":"SAFAE","name":"Ayoub Khouna","appels":40,"aph":7.38,"dmt":440,"acw_s":31,"occ":84.3},{"site":"HO","eq":"SAFAE","name":"Aya ERRONI","appels":66,"aph":10.81,"dmt":327,"acw_s":28,"occ":81.4},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Soraya MUHEYA","appels":55,"aph":9.76,"dmt":345,"acw_s":32,"occ":83.6},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"HICHAM HAYSSOUS","appels":64,"aph":10.45,"dmt":326,"acw_s":5,"occ":82.1},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Rabie EL BAKKOURI","appels":44,"aph":8.71,"dmt":384,"acw_s":13,"occ":79.9},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Hakim EL HADRATI","appels":67,"aph":11.25,"dmt":307,"acw_s":8,"occ":79.1},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"ezzahra AARAB Fatma","appels":58,"aph":9.35,"dmt":373,"acw_s":12,"occ":81.3},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Fatima Zahrae TORRES","appels":74,"aph":12.11,"dmt":282,"acw_s":9,"occ":80.7},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Driss LAATIRIS","appels":61,"aph":10.29,"dmt":332,"acw_s":43,"occ":79.2},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Kaoutar KASSAS","appels":58,"aph":9.16,"dmt":366,"acw_s":28,"occ":80.3},{"site":"TE","eq":"El Mehdi ACHEDDAD","name":"Omar EL MESSAOUDI","appels":67,"aph":10.82,"dmt":303,"acw_s":45,"occ":81.0},{"site":"TE","eq":"Mutualisés","name":"Nada OAOUDA","appels":60,"aph":9.9,"dmt":353,"acw_s":18,"occ":80.4},{"site":"TE","eq":"Siham FAIDOULLE","name":"HAMRI Najlae","appels":57,"aph":8.98,"dmt":389,"acw_s":36,"occ":87.0},{"site":"TE","eq":"Siham FAIDOULLE","name":"IMANE ATTAOUI","appels":57,"aph":9.17,"dmt":367,"acw_s":26,"occ":82.4},{"site":"TE","eq":"Siham FAIDOULLE","name":"Afaf AL ABDELLAOUI","appels":41,"aph":6.85,"dmt":510,"acw_s":61,"occ":82.8},{"site":"TE","eq":"Siham FAIDOULLE","name":"Mohamed EL BAKKALI","appels":45,"aph":7.11,"dmt":482,"acw_s":30,"occ":82.7},{"site":"TE","eq":"Siham FAIDOULLE","name":"DJIHAD RABOULI","appels":52,"aph":8.87,"dmt":372,"acw_s":60,"occ":78.2},{"site":"TE","eq":"Siham FAIDOULLE","name":"Hajar HADJ AMANSOR","appels":56,"aph":9.04,"dmt":390,"acw_s":29,"occ":82.2},{"site":"TE","eq":"Taoufik ARHMANE","name":"Hind BASSIME","appels":54,"aph":8.42,"dmt":417,"acw_s":15,"occ":82.5},{"site":"TE","eq":"Taoufik ARHMANE","name":"Mohamed El Mehdi BENLEHMAR","appels":47,"aph":7.49,"dmt":455,"acw_s":17,"occ":80.4},{"site":"TE","eq":"Taoufik ARHMANE","name":"Smahane BOUCHOUKA","appels":71,"aph":11.86,"dmt":298,"acw_s":34,"occ":80.5},{"site":"TE","eq":"Taoufik ARHMANE","name":"Hamza NAHAL AZOUZI","appels":53,"aph":9.11,"dmt":386,"acw_s":39,"occ":80.8},{"site":"TE","eq":"Taoufik ARHMANE","name":"Mohamed EL ISSAOUI","appels":48,"aph":7.75,"dmt":460,"acw_s":9,"occ":84.6},{"site":"TE","eq":"Taoufik ARHMANE","name":"Hasnaa BAHADDOU","appels":62,"aph":9.63,"dmt":360,"acw_s":7,"occ":82.4},{"site":"TE","eq":"Taoufik ARHMANE","name":"Mohammed Yassir BELEFDIL","appels":50,"aph":8.82,"dmt":405,"acw_s":30,"occ":82.8},{"site":"TE","eq":"Taoufik ARHMANE","name":"Laila BARHOUN","appels":57,"aph":9.07,"dmt":361,"acw_s":16,"occ":83.8},{"site":"TE","eq":"Taoufik ARHMANE","name":"Lina LAAZIBI","appels":53,"aph":8.67,"dmt":406,"acw_s":31,"occ":81.6},{"site":"TE","eq":"Taoufik ARHMANE","name":"Khawla Akharaz","appels":51,"aph":8.45,"dmt":403,"acw_s":9,"occ":82.2}];
 
 let prevAgents=[], chartInst=null;
 const avg=(arr,fn)=>arr.reduce((s,x)=>s+fn(x),0)/arr.length;
 
-// Date
 document.getElementById('datepill').textContent =
   new Date().toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
 
@@ -391,72 +388,114 @@ function filterAl(t,el){
   });
 }
 
-// ── FILE UPLOAD (xlsx/csv) ─────────────────────────────────
+// ── FILE UPLOAD ─────────────────────────────────────────
 function handleFile(e){
   const f=e.target.files[0]; if(!f) return;
   const reader=new FileReader();
   reader.onload=ev=>{
     try{
       const wb=XLSX.read(ev.target.result,{type:'binary',dense:false});
-      const sn=wb.SheetNames.find(s=>/prod.*agent/i.test(s))||wb.SheetNames.find(s=>/agent/i.test(s))||wb.SheetNames[0];
-      parseXlsx(wb.Sheets[sn], f.name);
-    }catch(err){alert('Erreur lecture : '+err.message);}
+      const sn=wb.SheetNames.find(s=>/prod.*agent/i.test(s))
+              ||wb.SheetNames.find(s=>/agent/i.test(s))
+              ||wb.SheetNames[0];
+      parseSheet(wb.Sheets[sn], f.name);
+    }catch(err){alert('Erreur : '+err.message);}
   };
   reader.readAsBinaryString(f);
 }
-function cv(ws,r,c){const a=XLSX.utils.encode_cell({r,c});return ws[a]?ws[a].v:null;}
-function toF(v){try{const n=parseFloat(v);return isNaN(n)?0:n;}catch{return 0;}}
 
-function parseXlsx(ws,fname){
-  const ref=XLSX.utils.decode_range(ws['!ref']||'A1:Z50');
-  let hrow=-1,cols={};
-  for(let r=ref.s.r;r<=Math.min(ref.e.r,30);r++){
-    for(let c=ref.s.c;c<=ref.e.c;c++){
-      const v=cv(ws,r,c);
-      if(typeof v==='string'&&/nom.agent/i.test(v)){hrow=r;break;}
+function toF(v){
+  if(v===null||v===undefined||v===''||v==='--') return 0;
+  const n=parseFloat(String(v).replace(',','.'));
+  return isNaN(n)?0:n;
+}
+
+function parseSheet(ws, fname){
+  const ref=XLSX.utils.decode_range(ws['!ref']||'A1:BZ600');
+  let hrow=-1;
+
+  // Find header row: scan rows looking for "Nom Agents"
+  for(let r=ref.s.r; r<=Math.min(ref.e.r,30); r++){
+    for(let c=0; c<=15; c++){
+      const addr=XLSX.utils.encode_cell({r,c});
+      const cell=ws[addr];
+      if(cell && typeof cell.v==='string'){
+        const v=cell.v.trim().toLowerCase();
+        if(v.includes('nom') && v.includes('agent')){
+          hrow=r; break;
+        }
+      }
     }
-    if(hrow>=0)break;
+    if(hrow>=0) break;
   }
-  if(hrow<0){alert('Colonne "Nom Agents" introuvable. Vérifiez que c\'est bien la feuille Prod.Agents.');return;}
-  for(let c=ref.s.c;c<=ref.e.c;c++){
-    const v=cv(ws,hrow,c); if(!v||typeof v!=='string')continue;
-    const l=v.trim().toLowerCase();
-    if(/nom.agent/i.test(l)) cols.agent=c;
-    else if(l==='site') cols.site=c;
-    else if(l==='equipe') cols.equipe=c;
-    else if(/appels entrants/i.test(l)) cols.appels=c;
-    else if(/appels r.*prod/i.test(l)) cols.aph=c;
-    else if(/^\s*dmt\.\s*$/.test(l)) cols.dmt=c;
-    else if(/post-traitement\(h\)/i.test(l)) cols.acw=c;
-    else if(/occupation/i.test(l)) cols.occ=c;
+
+  if(hrow<0){
+    alert('Impossible de lire ce fichier.\nAssurez-vous que la feuille "Prod.Agents" est bien sélectionnée.\n\nFeuilles disponibles : vérifiez le fichier.');
+    return;
   }
-  prevAgents=[...agents]; agents=[];
+
+  // Map columns
+  const cols={agent:3,site:1,equipe:2,appels:5,aph:22,dmt:15,acw:11,occ:20};
+  for(let c=0; c<=80; c++){
+    const addr=XLSX.utils.encode_cell({r:hrow,c});
+    const cell=ws[addr];
+    if(!cell||typeof cell.v!=='string') continue;
+    const l=cell.v.trim().toLowerCase().replace(/\s+/g,' ');
+    if(l.includes('nom') && l.includes('agent'))           cols.agent=c;
+    else if(l==='site')                                    cols.site=c;
+    else if(l==='equipe')                                  cols.equipe=c;
+    else if(l.includes('appels entrants'))                 cols.appels=c;
+    else if(l.includes('appels r') && l.includes('prod')) cols.aph=c;
+    else if(/^\s*dmt\.?\s*$/.test(l))                  cols.dmt=c;
+    else if(l.includes('post-traitement') && l.includes('h')) cols.acw=c;
+    else if(l.includes('occupation'))                      cols.occ=c;
+  }
+
+  prevAgents=[...agents];
+  agents=[];
   let lS='',lE='';
-  for(let r=hrow+1;r<=ref.e.r;r++){
-    const name=cv(ws,r,cols.agent);
-    if(!name||typeof name!=='string')continue;
-    const eq=cv(ws,r,cols.equipe);
-    if(eq&&typeof eq==='string'&&/total/i.test(eq))continue;
-    const site=cv(ws,r,cols.site);
-    if(site&&typeof site==='string')lS=site;
-    if(eq&&typeof eq==='string')lE=eq;
-    const appels=toF(cv(ws,r,cols.appels));
-    const aph=toF(cv(ws,r,cols.aph));
-    const dmt=toF(cv(ws,r,cols.dmt));
-    const acw_h=toF(cv(ws,r,cols.acw));
-    const occ=toF(cv(ws,r,cols.occ));
-    if(appels<30)continue;
-    const acw_s=appels?Math.round(acw_h*3600/appels):0;
-    agents.push({site:lS,eq:lE,name:name.trim(),appels:Math.round(appels),aph:Math.round(aph*100)/100,dmt:Math.round(dmt),acw_s,occ:Math.round(occ*1000)/10});
+
+  for(let r=hrow+1; r<=ref.e.r; r++){
+    const nameCell=ws[XLSX.utils.encode_cell({r,c:cols.agent})];
+    if(!nameCell||typeof nameCell.v!=='string'||!nameCell.v.trim()) continue;
+
+    const eqCell=ws[XLSX.utils.encode_cell({r,c:cols.equipe})];
+    const eq=eqCell?eqCell.v:'';
+    if(eq && typeof eq==='string' && /total/i.test(eq)) continue;
+
+    const siteCell=ws[XLSX.utils.encode_cell({r,c:cols.site})];
+    if(siteCell && typeof siteCell.v==='string' && siteCell.v.trim()) lS=siteCell.v.trim();
+    if(eq && typeof eq==='string' && eq.trim()) lE=eq.trim();
+
+    const appels=toF(ws[XLSX.utils.encode_cell({r,c:cols.appels})]?.v);
+    const aph   =toF(ws[XLSX.utils.encode_cell({r,c:cols.aph})]?.v);
+    const dmt   =toF(ws[XLSX.utils.encode_cell({r,c:cols.dmt})]?.v);
+    const acw_h =toF(ws[XLSX.utils.encode_cell({r,c:cols.acw})]?.v);
+    const occ   =toF(ws[XLSX.utils.encode_cell({r,c:cols.occ})]?.v);
+
+    if(appels<30) continue;
+
+    agents.push({
+      site:lS, eq:lE, name:nameCell.v.trim(),
+      appels:Math.round(appels),
+      aph:   Math.round(aph*100)/100,
+      dmt:   Math.round(dmt),
+      acw_s: appels?Math.round(acw_h*3600/appels):0,
+      occ:   Math.round(occ*1000)/10
+    });
   }
-  if(!agents.length){alert('Aucun agent trouvé dans ce fichier.');return;}
+
+  if(!agents.length){
+    alert('Aucun agent trouvé. Vérifiez que le fichier est le bon rapport.');
+    return;
+  }
+
   document.getElementById('fname').textContent=fname;
   document.getElementById('filepill').classList.add('show');
   document.getElementById('page-sub').textContent=fname+' — '+agents.length+' agents';
   renderAll();
 }
 
-// ── RENDER ─────────────────────────────────────────────────
 function renderAll(){
   document.getElementById('agcnt').textContent=agents.length;
   document.getElementById('agcnt').classList.add('show');
@@ -493,21 +532,15 @@ function renderProg(){
     {l:'Appels/h production',cur:mAph,tgt:OBJ_APH,fmt:v=>v.toFixed(2)+'/h',hi:true,tl:'8,5/h'},
     {l:'Durée moy. traitement',cur:mDmt,tgt:OBJ_DMT,fmt:v=>Math.round(v)+'s',hi:false,tl:'420s'},
     {l:'Post-traitement/appel',cur:mAcw,tgt:OBJ_ACW,fmt:v=>Math.round(v)+'s',hi:false,tl:'45s'},
-    {l:'Taux d\'occupation',cur:mOcc,tgt:OBJ_OCC,fmt:v=>Math.round(v)+'%',hi:true,tl:'82%'},
+    {l:"Taux d'occupation",cur:mOcc,tgt:OBJ_OCC,fmt:v=>Math.round(v)+'%',hi:true,tl:'82%'},
   ];
   document.getElementById('prog-grid').innerHTML=items.map(m=>{
     const pct=m.hi?Math.min(100,Math.round(m.cur/m.tgt*100)):Math.min(100,Math.round(m.tgt/Math.max(m.cur,.001)*100));
     const col=pct>=100?'#047857':pct>=85?'#1d4ed8':'#b91c1c';
     return `<div class="prog-card">
-      <div class="prog-head">
-        <div class="prog-label">${m.l}</div>
-        <div class="prog-pct" style="color:${col}">${pct}%</div>
-      </div>
+      <div class="prog-head"><div class="prog-label">${m.l}</div><div class="prog-pct" style="color:${col}">${pct}%</div></div>
       <div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:${col}"></div></div>
-      <div class="prog-foot">
-        <span class="prog-cur" style="color:${col}">${m.fmt(m.cur)}</span>
-        <span class="prog-tgt">cible ${m.tl}</span>
-      </div>
+      <div class="prog-foot"><span class="prog-cur" style="color:${col}">${m.fmt(m.cur)}</span><span class="prog-tgt">cible ${m.tl}</span></div>
     </div>`;
   }).join('');
 }
@@ -525,11 +558,7 @@ function renderChart(){
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y.toFixed(2)+'/h'}}},
-      scales:{
-        y:{min:0,grid:{color:'#e3e7f0',drawBorder:false},ticks:{color:'#9ca3af',font:{size:10}}},
-        x:{grid:{display:false},ticks:{color:'#6b7280',font:{size:10},maxRotation:35}}
-      }
-    }
+      scales:{y:{min:0,grid:{color:'#e3e7f0'},ticks:{color:'#9ca3af',font:{size:10}}},x:{grid:{display:false},ticks:{color:'#6b7280',font:{size:10},maxRotation:35}}}}
   });
 }
 
@@ -540,22 +569,12 @@ function renderMini(){
   document.getElementById('top5').innerHTML=byAph.map((a,i)=>{
     const pct=Math.min(100,Math.round(a.aph/OBJ_APH*100));
     const c=a.aph>=OBJ_APH?'#047857':'#b91c1c';
-    return `<div class="mini-row">
-      <div class="mini-rank ${i===0?'g1'}">${i+1}</div>
-      <div class="mini-info"><div class="mini-name">${a.name}</div><div class="mini-eq">${a.eq}</div></div>
-      <div class="mini-track"><div class="mini-fill" style="width:${pct}%;background:${c}"></div></div>
-      <div class="mini-val" style="color:${c}">${a.aph.toFixed(2)}/h</div>
-    </div>`;
+    return `<div class="mini-row"><div class="mini-rank ${i===0?'g1'}">${i+1}</div><div class="mini-info"><div class="mini-name">${a.name}</div><div class="mini-eq">${a.eq}</div></div><div class="mini-track"><div class="mini-fill" style="width:${pct}%;background:${c}"></div></div><div class="mini-val" style="color:${c}">${a.aph.toFixed(2)}/h</div></div>`;
   }).join('');
   document.getElementById('acwtop').innerHTML=byAcw.map((a,i)=>{
     const pct=Math.min(100,Math.round(a.acw_s/(OBJ_ACW*2.5)*100));
     const c=a.acw_s<=OBJ_ACW?'#047857':'#b91c1c';
-    return `<div class="mini-row">
-      <div class="mini-rank">${i+1}</div>
-      <div class="mini-info"><div class="mini-name">${a.name}</div><div class="mini-eq">${a.eq}</div></div>
-      <div class="mini-track"><div class="mini-fill" style="width:${pct}%;background:${c}"></div></div>
-      <div class="mini-val" style="color:${c}">${Math.round(a.acw_s)}s</div>
-    </div>`;
+    return `<div class="mini-row"><div class="mini-rank">${i+1}</div><div class="mini-info"><div class="mini-name">${a.name}</div><div class="mini-eq">${a.eq}</div></div><div class="mini-track"><div class="mini-fill" style="width:${pct}%;background:${c}"></div></div><div class="mini-val" style="color:${c}">${Math.round(a.acw_s)}s</div></div>`;
   }).join('');
 }
 
@@ -578,68 +597,34 @@ function renderTable(){
   else if(sort==='dmt_d')list.sort((a,b)=>b.dmt-a.dmt);
   else if(sort==='occ_a')list.sort((a,b)=>a.occ-b.occ);
   document.getElementById('ag-tb').innerHTML=list.map(a=>{
-    const aphOk=a.aph>=OBJ_APH, dmtOk=a.dmt<=OBJ_DMT, acwOk=a.acw_s<=OBJ_ACW, occOk=a.occ>=OBJ_OCC;
+    const aphOk=a.aph>=OBJ_APH,dmtOk=a.dmt<=OBJ_DMT,acwOk=a.acw_s<=OBJ_ACW,occOk=a.occ>=OBJ_OCC;
     const issues=[!aphOk&&'APH',!dmtOk&&'DMT',!acwOk&&'ACW',!occOk&&'Occ'].filter(Boolean);
     const st=issues.length===0?'<span class="badge b-ok">✓ OK</span>':issues.length>=3?'<span class="badge b-ko">⚠ '+issues.join(' · ')+'</span>':'<span class="badge b-warn">'+issues.join(' · ')+'</span>';
-    return `<tr>
-      <td><div class="td-agent">${a.name}</div><div class="td-eq">${a.eq}</div></td>
-      <td><span class="site-tag ${a.site==='HO'?'s-ho':'s-te'}">${a.site}</span></td>
-      <td class="${aphOk?'val-ok':'val-ko'}">${a.aph.toFixed(2)}</td>
-      <td>${a.appels}</td>
-      <td class="${dmtOk?'':'val-warn'}">${a.dmt}</td>
-      <td class="${acwOk?'':'val-ko'}">${Math.round(a.acw_s)}s</td>
-      <td class="${occOk?'':'val-warn'}">${a.occ}%</td>
-      <td>${st}</td>
-    </tr>`;
+    return `<tr><td><div class="td-agent">${a.name}</div><div class="td-eq">${a.eq}</div></td><td><span class="site-tag ${a.site==='HO'?'s-ho':'s-te'}">${a.site}</span></td><td class="${aphOk?'val-ok':'val-ko'}">${a.aph.toFixed(2)}</td><td>${a.appels}</td><td class="${dmtOk?'':'val-warn'}">${a.dmt}</td><td class="${acwOk?'':'val-ko'}">${a.acw_s}s</td><td class="${occOk?'':'val-warn'}">${a.occ}%</td><td>${st}</td></tr>`;
   }).join('');
 }
 
 function renderAlerts(){
   const alerts=[];
   const m=agents.filter(a=>!/sup/i.test(a.eq));
-  m.filter(a=>a.aph<OBJ_APH*0.85).sort((a,b)=>a.aph-b.aph).forEach(a=>
-    alerts.push({t:'crit',i:'🔴',cat:'Critique — Appels/heure',msg:`<strong>${a.name}</strong> (${a.eq}) — Appels/h : <strong>${a.aph.toFixed(2)}/h</strong> · manque <strong>${(OBJ_APH-a.aph).toFixed(2)}/h</strong> pour atteindre l'objectif`})
-  );
-  m.filter(a=>a.aph>=OBJ_APH*0.85&&a.aph<OBJ_APH).sort((a,b)=>a.aph-b.aph).forEach(a=>
-    alerts.push({t:'warn',i:'🟡',cat:'Sous objectif — Appels/heure',msg:`<strong>${a.name}</strong> (${a.eq}) — Appels/h : <strong>${a.aph.toFixed(2)}/h</strong> vs objectif 8,5`})
-  );
-  m.filter(a=>a.acw_s>OBJ_ACW).sort((a,b)=>b.acw_s-a.acw_s).forEach(a=>
-    alerts.push({t:'warn',i:'⏱',cat:'Post-traitement élevé',msg:`<strong>${a.name}</strong> (${a.eq}) — ACW : <strong>${Math.round(a.acw_s)}s/appel</strong> · dépassement de ${Math.round(a.acw_s)-OBJ_ACW}s`})
-  );
-  m.filter(a=>a.dmt>OBJ_DMT).sort((a,b)=>b.dmt-a.dmt).forEach(a=>
-    alerts.push({t:'warn',i:'📞',cat:'DMT élevée',msg:`<strong>${a.name}</strong> (${a.eq}) — DMT : <strong>${a.dmt}s</strong> (objectif ≤ 420s)`})
-  );
-  m.filter(a=>a.occ<OBJ_OCC-3).sort((a,b)=>a.occ-b.occ).forEach(a=>
-    alerts.push({t:'warn',i:'💤',cat:'Occupation faible',msg:`<strong>${a.name}</strong> (${a.eq}) — Occupation : <strong>${a.occ}%</strong> (objectif ≥ 82%)`})
-  );
+  m.filter(a=>a.aph<OBJ_APH*0.85).sort((a,b)=>a.aph-b.aph).forEach(a=>alerts.push({t:'crit',i:'🔴',cat:'Critique — Appels/heure',msg:`<strong>${a.name}</strong> (${a.eq}) — Appels/h : <strong>${a.aph.toFixed(2)}/h</strong> · manque <strong>${(OBJ_APH-a.aph).toFixed(2)}/h</strong>`}));
+  m.filter(a=>a.aph>=OBJ_APH*0.85&&a.aph<OBJ_APH).sort((a,b)=>a.aph-b.aph).forEach(a=>alerts.push({t:'warn',i:'🟡',cat:'Sous objectif — Appels/heure',msg:`<strong>${a.name}</strong> (${a.eq}) — Appels/h : <strong>${a.aph.toFixed(2)}/h</strong> vs objectif 8,5`}));
+  m.filter(a=>a.acw_s>OBJ_ACW).sort((a,b)=>b.acw_s-a.acw_s).forEach(a=>alerts.push({t:'warn',i:'⏱',cat:'Post-traitement élevé',msg:`<strong>${a.name}</strong> (${a.eq}) — ACW : <strong>${a.acw_s}s/appel</strong> · dépassement de ${a.acw_s-OBJ_ACW}s`}));
+  m.filter(a=>a.dmt>OBJ_DMT).sort((a,b)=>b.dmt-a.dmt).forEach(a=>alerts.push({t:'warn',i:'📞',cat:'DMT élevée',msg:`<strong>${a.name}</strong> (${a.eq}) — DMT : <strong>${a.dmt}s</strong> (objectif ≤ 420s)`}));
+  m.filter(a=>a.occ<OBJ_OCC-3).sort((a,b)=>a.occ-b.occ).forEach(a=>alerts.push({t:'warn',i:'💤',cat:'Occupation faible',msg:`<strong>${a.name}</strong> (${a.eq}) — Occupation : <strong>${a.occ}%</strong> (objectif ≥ 82%)`}));
   const stars=m.filter(a=>a.aph>=OBJ_APH*1.2&&a.acw_s<=OBJ_ACW);
-  if(stars.length) alerts.push({t:'good',i:'🏆',cat:'Performance optimale',msg:`${stars.slice(0,6).map(a=>`<strong>${a.name}</strong> (${a.aph.toFixed(2)}/h)`).join(' · ')}`});
-
+  if(stars.length) alerts.push({t:'good',i:'🏆',cat:'Performance optimale',msg:stars.slice(0,6).map(a=>`<strong>${a.name}</strong> (${a.aph.toFixed(2)}/h)`).join(' · ')});
   const crits=alerts.filter(a=>a.t==='crit').length;
   const warns=alerts.filter(a=>a.t==='warn').length;
   const goods=alerts.filter(a=>a.t==='good').length;
-  const total=crits+warns;
-  document.getElementById('alcnt').textContent=total||'0';
-  document.getElementById('astat').innerHTML=`
-    <div class="astat crit">Critiques<strong>${crits}</strong></div>
-    <div class="astat warn">À surveiller<strong>${warns}</strong></div>
-    <div class="astat good">Bonne perf.<strong>${goods}</strong></div>
-    <div class="astat">Total agents<strong>${agents.length}</strong></div>`;
-  document.getElementById('al-list').innerHTML=alerts.map(a=>`
-    <div class="alert-item ${a.t}">
-      <div class="alert-ico">${a.i}</div>
-      <div class="alert-body">
-        <div class="alert-text">${a.msg}</div>
-        <div class="alert-cat">${a.cat}</div>
-      </div>
-    </div>`).join('');
+  document.getElementById('alcnt').textContent=crits+warns||'0';
+  document.getElementById('astat').innerHTML=`<div class="astat crit">Critiques<strong>${crits}</strong></div><div class="astat warn">À surveiller<strong>${warns}</strong></div><div class="astat good">Bonne perf.<strong>${goods}</strong></div><div class="astat">Total agents<strong>${agents.length}</strong></div>`;
+  document.getElementById('al-list').innerHTML=alerts.map(a=>`<div class="alert-item ${a.t}"><div class="alert-ico">${a.i}</div><div class="alert-body"><div class="alert-text">${a.msg}</div><div class="alert-cat">${a.cat}</div></div></div>`).join('');
 }
 
-// Init with preloaded data
 populateFilters(); renderKPIs(); renderProg(); renderChart(); renderMini(); renderTable(); renderAlerts();
 document.getElementById('agcnt').textContent=agents.length;
 document.getElementById('agcnt').classList.add('show');
-document.getElementById('alcnt').textContent=agents.filter(a=>a.aph<OBJ_APH).length+agents.filter(a=>a.acw_s>OBJ_ACW).length;
 </script>
 </body>
 </html>
